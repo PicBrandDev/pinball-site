@@ -3,385 +3,286 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<!--page-->
-<title>Pinball PICbrand 3D</title>
-<meta name="claude:viewport-fit-sides" content="cover">
+<title>Pinball PICbrand · Documentação</title>
+<meta name="description" content="Documentação técnica do pinball de mesa PICbrand: visualizador 3D, subsistemas, catálogo de peças e páginas do PICBOX.">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@500;600;700&display=swap">
 <style>
-/* Layout: bancada de oficina — barra superior fina, árvore do projeto à esquerda, palco 3D ocupando o resto, ficha técnica flutuando no palco. */
+/* Layout: caderno técnico — barra de seções fixa no topo, coluna única larga, o visualizador 3D como peça central e tabelas geradas do manifest. */
 :root {
-  --bg: #e9edf1; --panel: #f7f9fb; --stage: #dfe5ea; --fg: #17212b; --muted: #586675; --line: #cdd6de;
+  --bg: #e9edf1; --panel: #f7f9fb; --fg: #17212b; --muted: #586675; --line: #cdd6de;
   --accent: #c2255c; --accent-fg: #ffffff; --hover: #e3e9ee;
   --f-display: Outfit, "Segoe UI", system-ui, sans-serif;
   --f-body: Inter, "Segoe UI", system-ui, sans-serif;
   --f-data: "JetBrains Mono", ui-monospace, Consolas, monospace;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --bg: #10151a; --panel: #171e25; --stage: #0c1014; --fg: #e4eaf0; --muted: #94a2b0; --line: #2a343e;
+  --bg: #10151a; --panel: #171e25; --fg: #e4eaf0; --muted: #94a2b0; --line: #2a343e;
   --accent: #ff7aa5; --accent-fg: #1a0710; --hover: #202932; color-scheme: dark } }
 :root[data-theme="dark"] {
-  --bg: #10151a; --panel: #171e25; --stage: #0c1014; --fg: #e4eaf0; --muted: #94a2b0; --line: #2a343e;
+  --bg: #10151a; --panel: #171e25; --fg: #e4eaf0; --muted: #94a2b0; --line: #2a343e;
   --accent: #ff7aa5; --accent-fg: #1a0710; --hover: #202932; color-scheme: dark }
 
-[hidden] { display: none !important; }
-html, body { height: 100%; }
-body { margin: 0; background: var(--bg); color: var(--fg); font: 14px/1.45 var(--f-body); display: flex; flex-direction: column; }
 * { box-sizing: border-box; }
-button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
-button:focus-visible, input:focus-visible, summary:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.55 var(--f-body); }
 a { color: var(--accent); }
+button, select, input { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+img { max-width: 100%; display: block; }
 
-.bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; padding-block: 10px;
-  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
-  border-bottom: 1px solid var(--line); background: var(--panel); }
-.bar h1 { font: 600 17px/1.2 var(--f-display); margin: 0; letter-spacing: -0.01em; }
-.bar .sub { color: var(--muted); font: 12px var(--f-data); }
-.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
-.links { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-left: auto; font-size: 13px; font-weight: 500; }
-body.shot .links { display: none; }
-.seg button { padding: 6px 14px; font-weight: 500; }
-.seg button + button { border-left: 1px solid var(--line); }
-.seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); }
+.wrap { max-width: 1160px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.top { position: sticky; top: 0; z-index: 5; background: var(--panel); border-bottom: 1px solid var(--line); }
+.top .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 22px; padding-block: 12px; }
+.top strong { font: 600 16px var(--f-display); }
+.top nav { display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 14px; }
+.top nav a { color: var(--muted); text-decoration: none; }
+.top nav a:hover { color: var(--fg); }
 
-.work { flex: 1; min-height: 0; display: grid; grid-template-columns: 300px minmax(0, 1fr); }
-.side { border-right: 1px solid var(--line); background: var(--panel); overflow-y: auto; padding: 12px 0 24px; min-width: 0; }
-.side h2 { font: 500 11px var(--f-body); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 6px 16px 8px; }
-.cat { border-bottom: 1px solid var(--line); }
-.cat summary { display: flex; align-items: center; gap: 8px; padding: 8px 16px; cursor: pointer; list-style: none; font-weight: 500; }
-.cat summary::-webkit-details-marker { display: none; }
-.cat summary:hover { background: var(--hover); }
-.sw { width: 12px; height: 12px; border-radius: 3px; flex: none; }
-.cat .n { margin-left: auto; color: var(--muted); font: 12px var(--f-data); }
-.cat input { margin: 0; accent-color: var(--accent); }
-.row { display: flex; width: 100%; text-align: left; gap: 8px; align-items: baseline; padding: 5px 16px 5px 36px; }
-.row:hover { background: var(--hover); }
-.row[aria-current="true"] { background: var(--hover); box-shadow: inset 3px 0 0 var(--accent); }
-.row .nm { flex: 1; min-width: 0; overflow-wrap: anywhere; }
-.row .dm { color: var(--muted); font: 11px var(--f-data); white-space: nowrap; }
-.part { padding: 8px 16px; border-bottom: 1px solid var(--line); flex-direction: column; gap: 2px; align-items: stretch; }
-.part .dm { white-space: normal; }
+header.intro { padding-block: 40px 8px; }
+header.intro h1 { font: 700 clamp(30px, 5vw, 46px)/1.05 var(--f-display); letter-spacing: -0.02em; margin: 0 0 12px; text-wrap: balance; }
+header.intro p { max-width: 65ch; color: var(--muted); margin: 0; font-size: 16px; }
+.specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); margin: 28px 0 0; border-block: 1px solid var(--line); }
+.specs div { padding: 14px 16px 14px 0; }
+.specs dt { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.specs dd { margin: 2px 0 0; font: 500 16px var(--f-data); font-variant-numeric: tabular-nums; }
 
-.stage { position: relative; background: var(--stage); min-width: 0; min-height: 0; overflow: hidden; }
-.stage canvas { display: block; width: 100%; height: 100%; touch-action: none; }
-.tools { position: absolute; top: 12px; right: max(12px, env(safe-area-inset-right, 0px)); display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; }
-.tools button { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 5px 10px; font-size: 13px; }
-.tools button:hover { background: var(--hover); }
-.tools button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
-.card { position: absolute; left: 12px; bottom: 12px; width: min(330px, calc(100% - 24px)); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; }
-.card h3 { font: 600 15px/1.25 var(--f-display); margin: 0 0 2px; overflow-wrap: anywhere; }
-.card .tag { color: var(--muted); font-size: 12px; display: flex; align-items: center; gap: 6px; }
-.card dl { display: grid; grid-template-columns: auto 1fr; gap: 3px 12px; margin: 10px 0 0; font: 12px var(--f-data); font-variant-numeric: tabular-nums; }
-.card dt { color: var(--muted); }
-.card dd { margin: 0; text-align: right; overflow-wrap: anywhere; }
-.card .acts { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 10px; font-size: 13px; }
-.card .acts button { color: var(--accent); text-decoration: underline; padding: 0; }
-.explode { position: absolute; right: max(12px, env(safe-area-inset-right, 0px)); bottom: 12px; display: flex; align-items: center; gap: 8px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 6px 12px; font-size: 13px; }
-.explode input { width: 140px; accent-color: var(--accent); }
-.msg { position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); padding: 24px; text-align: center; pointer-events: none; }
+section { padding-block: 34px 6px; }
+section > h2 { font: 600 24px/1.2 var(--f-display); letter-spacing: -0.01em; margin: 0 0 6px; }
+section > p.lead { color: var(--muted); max-width: 70ch; margin: 0 0 18px; }
 
-@media (max-width: 760px) {
-  html, body { height: auto; }
-  .work { display: flex; flex-direction: column; }
-  .stage { order: -1; height: 68vh; min-height: 380px; }
-  .side { border-right: 0; border-top: 1px solid var(--line); overflow: visible; }
-  .seg { margin-left: 0; }
-  .explode { position: static; margin: 0; border-radius: 0; border-width: 1px 0 0; position: absolute; left: 0; right: 0; bottom: 0; justify-content: center; }
-  .card { bottom: 52px; }
-}
-body.shot .bar, body.shot .side, body.shot .tools, body.shot .card, body.shot .explode { display: none; }
-body.shot .work { grid-template-columns: minmax(0, 1fr); }
-body.shot, body.shot .stage { background: #ffffff; height: 100vh; }
+.viewer { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--panel); }
+.viewer iframe { display: block; width: 100%; height: min(72vh, 640px); min-height: 420px; border: 0; }
+.viewer .vbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 10px 14px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+.viewer .vbar a { margin-left: auto; }
+
+.gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+.gallery figure { margin: 0; }
+.gallery a { display: block; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: #ffffff; }
+.gallery figcaption { font-size: 13px; color: var(--muted); margin-top: 6px; }
+
+.controls { display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; margin-bottom: 12px; }
+.controls input[type="search"], .controls select { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 7px 10px; min-width: 0; }
+.controls label { font-size: 13px; color: var(--muted); display: inline-flex; align-items: center; gap: 8px; }
+.chip { background: var(--panel); border: 1px solid var(--line); border-radius: 99px; padding: 5px 12px; font-size: 13px; display: inline-flex; align-items: center; gap: 7px; }
+.chip[aria-pressed="true"] { border-color: var(--fg); }
+.chip[aria-pressed="false"] { opacity: 0.55; }
+.sw { width: 11px; height: 11px; border-radius: 3px; flex: none; display: inline-block; }
+.count { font-size: 13px; color: var(--muted); margin-left: auto; }
+
+.scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { padding: 9px 14px; text-align: left; border-bottom: 1px solid var(--line); white-space: nowrap; }
+tbody tr:last-child td { border-bottom: 0; }
+th { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+td.num, th.num { text-align: right; font-family: var(--f-data); font-variant-numeric: tabular-nums; }
+td code { font: 13px var(--f-data); color: var(--muted); }
+tbody tr:hover { background: var(--hover); }
+.lk { background: none; border: 0; padding: 0; color: var(--accent); text-decoration: underline; }
+
+.parts { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
+.part { border: 1px solid var(--line); border-radius: 8px; background: var(--panel); overflow: hidden; display: flex; flex-direction: column; }
+.part .thumb { background: #ffffff; border: 0; padding: 0; border-bottom: 1px solid var(--line); aspect-ratio: 4 / 3; }
+.part .thumb img { width: 100%; height: 100%; object-fit: contain; }
+.part .body { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.part h3 { font: 600 16px/1.2 var(--f-display); margin: 0; }
+.part .file { font: 12px var(--f-data); color: var(--muted); overflow-wrap: anywhere; }
+.part dl { display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; margin: 0; font: 12px var(--f-data); font-variant-numeric: tabular-nums; }
+.part dt { color: var(--muted); }
+.part dd { margin: 0; text-align: right; }
+.part .acts { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 13px; margin-top: auto; }
+
+.pages { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+.pages a { display: block; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); padding: 16px 18px; text-decoration: none; color: inherit; }
+.pages a:hover { background: var(--hover); }
+.pages b { font: 600 17px var(--f-display); display: block; margin-bottom: 4px; }
+.pages span { color: var(--muted); font-size: 14px; }
+.pages em { font-style: normal; color: var(--accent); font-size: 13px; display: block; margin-top: 10px; }
+
+pre { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; overflow-x: auto; font: 13px/1.6 var(--f-data); margin: 0 0 14px; }
+ul.open { margin: 0; padding-left: 20px; max-width: 75ch; }
+ul.open li { margin-bottom: 6px; }
+footer { padding-block: 34px 48px; color: var(--muted); font-size: 13px; }
+.err { border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; background: var(--panel); }
 </style>
-<!--/page-->
 </head>
 <body>
-<!--page-->
-<header class="bar">
-  <h1>Pinball PICbrand</h1>
-  <span class="sub" id="sub">carregando…</span>
-  <nav class="links" aria-label="Outras visualizações">
-    <a href="picbox/modelo-3d.html">PICBOX · Modelo 3D</a>
-    <a href="picbox/wireframe.html">PICBOX · Wireframe</a>
+<div class="top"><div class="wrap">
+  <strong>Pinball PICbrand</strong>
+  <nav aria-label="Seções">
+    <a href="#visualizador">Visualizador</a><a href="#vistas">Vistas</a><a href="#corpos">Subsistemas</a>
+    <a href="#pecas">Peças</a><a href="#picbox">PICBOX</a><a href="#regenerar">Regenerar</a><a href="#aberto">Em aberto</a>
   </nav>
-  <div class="seg" role="group" aria-label="Modo">
-    <button id="m-asm" aria-pressed="true">Montagem</button>
-    <button id="m-parts" aria-pressed="false">Peças</button>
-  </div>
-</header>
-<div class="work">
-  <nav class="side" id="side" aria-label="Árvore do projeto"></nav>
-  <section class="stage" id="stage">
-    <canvas id="cv"></canvas>
-    <div class="msg" id="msg">Carregando modelo…</div>
-    <div class="tools">
-      <button data-view="iso">Isométrica</button>
-      <button data-view="top">Topo</button>
-      <button data-view="front">Frente</button>
-      <button data-view="side">Lateral</button>
-      <button id="t-edges" aria-pressed="true">Arestas</button>
-      <button id="t-all" hidden>Mostrar tudo</button>
-    </div>
-    <aside class="card" id="card" aria-live="polite"></aside>
-    <label class="explode" id="explode-box">Vista explodida <input type="range" id="explode" min="0" max="1" step="0.01" value="0"></label>
-  </section>
-</div>
+</div></div>
 
-<script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>
+<main class="wrap">
+  <header class="intro">
+    <h1>Documentação técnica do pinball de mesa</h1>
+    <p>Estrutura em madeira, peças de fabricação, elevador de bolinha por fuso, lançador de mola e sensores infravermelhos. As tabelas desta página são geradas a partir dos arquivos STEP do projeto.</p>
+    <dl class="specs" id="specs"></dl>
+  </header>
+
+  <section id="visualizador">
+    <h2>Visualizador 3D</h2>
+    <p class="lead">Arraste para girar, role para aproximar e clique em um corpo para isolar. Os botões “ver em 3D” das tabelas abaixo carregam o item aqui.</p>
+    <div class="viewer">
+      <iframe id="frame" src="visualizador.html?embed=1" title="Visualizador 3D do pinball" loading="lazy" allow="fullscreen"></iframe>
+      <div class="vbar"><span id="vnow">Montagem completa</span><button class="lk" id="vreset">Voltar à montagem</button><a href="visualizador.html">Abrir em tela cheia</a></div>
+    </div>
+  </section>
+
+  <section id="vistas">
+    <h2>Vistas da montagem</h2>
+    <p class="lead">Madeira em bege, peças de fabricação em azul, elevador em laranja, lançador em roxo, eletrônica em verde.</p>
+    <div class="gallery">
+      <figure><a href="img/montagem-iso.png"><img src="img/montagem-iso.png" alt="Montagem em vista isométrica" loading="lazy"></a><figcaption>Isométrica</figcaption></figure>
+      <figure><a href="img/montagem-topo.png"><img src="img/montagem-topo.png" alt="Montagem vista de topo" loading="lazy"></a><figcaption>Topo</figcaption></figure>
+      <figure><a href="img/montagem-frente.png"><img src="img/montagem-frente.png" alt="Montagem vista de frente" loading="lazy"></a><figcaption>Frente</figcaption></figure>
+      <figure><a href="img/montagem-explodida.png"><img src="img/montagem-explodida.png" alt="Montagem em vista explodida" loading="lazy"></a><figcaption>Explodida</figcaption></figure>
+      <figure><a href="img/montagem-interna.png"><img src="img/montagem-interna.png" alt="Mecanismos internos" loading="lazy"></a><figcaption>Mecanismos internos, sem madeira e sem peças de fabricação</figcaption></figure>
+    </div>
+  </section>
+
+  <section id="corpos">
+    <h2>Subsistemas e corpos da montagem</h2>
+    <p class="lead">Os 36 corpos de <code>pinball_COMPLETO.step</code>, com o nome original do CAD. Filtre por subsistema ou procure pelo nome.</p>
+    <div class="controls">
+      <input type="search" id="q" placeholder="Procurar corpo…" aria-label="Procurar corpo">
+      <span id="chips" style="display:contents"></span>
+      <span class="count" id="ccount"></span>
+    </div>
+    <div class="scroll"><table>
+      <thead><tr><th>Subsistema</th><th>Descrição</th><th>Corpo no CAD</th><th class="num">Envelope X × Y × Z (mm)</th><th class="num">Volume (cm³)</th><th></th></tr></thead>
+      <tbody id="crows"></tbody>
+    </table></div>
+  </section>
+
+  <section id="pecas">
+    <h2>Catálogo de peças</h2>
+    <p class="lead">As 12 peças exportadas individualmente. A massa é uma estimativa para a peça maciça no material escolhido; o material real de cada peça ainda não está registrado.</p>
+    <div class="controls">
+      <label>Ordenar <select id="sort"><option value="nome">por nome</option><option value="vol">por volume</option><option value="dim">pela maior dimensão</option></select></label>
+      <label>Material para a massa <select id="dens">
+        <option value="1.24">PLA · 1,24 g/cm³</option><option value="1.27">PETG · 1,27 g/cm³</option><option value="1.04">ABS · 1,04 g/cm³</option><option value="0.75">MDF · 0,75 g/cm³</option>
+      </select></label>
+      <span class="count" id="ptotal"></span>
+    </div>
+    <div class="parts" id="parts"></div>
+  </section>
+
+  <section id="picbox">
+    <h2>Páginas do PICBOX</h2>
+    <p class="lead">Duas páginas autônomas do produto, com sua própria navegação.</p>
+    <div class="pages">
+      <a href="picbox/modelo-3d.html"><b>PICBOX · Modelo 3D</b><span>Gabinete em 3D com a demonstração do ciclo de jogo: repouso, pagamento, bolinhas, resultado e prêmio.</span><em>Abrir página →</em></a>
+      <a href="picbox/wireframe.html"><b>PICBOX · Wireframe</b><span>Wireframe “Lançador e Fenda” v1.0: gabinete, modelo 3D, jogo e física, mecanismo e peças.</span><em>Abrir página →</em></a>
+    </div>
+  </section>
+
+  <section id="regenerar">
+    <h2>Regenerar modelos e imagens</h2>
+    <p class="lead">Os arquivos STEP em <code>cad/</code> são a fonte. Modelos GLB, STL, tabelas e imagens são derivados. Requer Node.js 20 ou mais recente.</p>
+<pre>npm install
+npm run convert        # cad/**/*.step → docs/models/*.glb, cad/stl/*.stl, manifest.json
+npm run serve          # este site em http://localhost:5173
+bash tools/render.sh   # com o servidor no ar: recria docs/img/*.png
+npm run publish-site   # envia docs/ para o site público</pre>
+    <p class="lead">Os arquivos-fonte ficam no repositório privado <a href="https://github.com/PicBrandDev/pinball">PicBrandDev/pinball</a>; os links STEP e STL desta página exigem acesso a ele.</p>
+  </section>
+
+  <section id="aberto">
+    <h2>Pontos em aberto</h2>
+    <ul class="open">
+      <li>Material e processo de cada peça de fabricação, e espessura real das chapas de madeira.</li>
+      <li>Corpos sem nome descritivo na montagem: <code>1.7.5</code> (barra de 258,5 × 15 × 34,4 mm junto à canaleta de coleta) e <code>SOLID</code> (11,3 × 12 × 15,7 mm, perto da ponte do tiro).</li>
+      <li>Superfícies sem volume (<code>corpo_19</code>, <code>corpo_30</code>, <code>corpo_32</code>) parecem resíduos de construção exportados junto.</li>
+      <li><code>BORDA_DIRETA.step</code> tem 3 corpos, enquanto as outras peças têm 1.</li>
+      <li>Esquema elétrico, controlador e firmware não fazem parte do projeto CAD.</li>
+    </ul>
+  </section>
+
+  <footer id="foot"></footer>
+</main>
+
 <script type="module">
-import * as THREE from 'three';
-import { OrbitControls } from './vendor/controls/OrbitControls.js';
-import { GLTFLoader } from './vendor/loaders/GLTFLoader.js';
+import { CATS, PART_LABEL, metaOf } from './data/projeto.js';
 
 const REPO = 'https://github.com/PicBrandDev/pinball/blob/main/';
 const $ = (id) => document.getElementById(id);
-const fmt = (v) => v.toLocaleString('pt-BR', { maximumFractionDigits: 1 });
-const dims = (d) => d.map(fmt).join(' × ');
+const fmt = (v, d = 1) => v.toLocaleString('pt-BR', { maximumFractionDigits: d });
+const dims = (d) => d.map((v) => fmt(v)).join(' × ');
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
-// Categorias e nomes legíveis dos corpos da montagem (chave = nome do corpo no STEP).
-const CATS = {
-  madeira:   { nome: 'Estrutura em madeira',  cor: '#c8a36a' },
-  pecas:     { nome: 'Peças de fabricação',   cor: '#3f83c9' },
-  elevador:  { nome: 'Elevador de bolinha',   cor: '#e2862f' },
-  lancador:  { nome: 'Lançador',              cor: '#8a5fd1' },
-  eletro:    { nome: 'Eletrônica e sensores', cor: '#2aa57c' },
-  bola:      { nome: 'Bolinha',               cor: '#b9c0c8' },
-  outros:    { nome: 'Outros corpos',         cor: '#8b96a1' },
-};
-const COMP = {
-  'corpo_20': ['madeira', 'Base'], 'madeira': ['madeira', 'Frente'], 'Tampo_madeira': ['madeira', 'Tampo de jogo'],
-  'Extensao_lancador_madeira': ['madeira', 'Extensão do lançador'],
-  '1.1': ['pecas', 'Borda esquerda', 'BORDA_EQUERDA'], 'corpo_31': ['pecas', 'Borda direita', 'BORDA_DIRETA'],
-  '1.7.6': ['pecas', 'Canaleta de coleta', 'CANALETA_DE_COLETA'], '1.2': ['pecas', 'Ponte do tiro', 'PONTE_DO_TIRO'],
-  'Coluna_F_dir': ['pecas', 'Pé direito P', 'PE_DIREITO_P'], 'Coluna_F_esq': ['pecas', 'Pé esquerdo P', 'PE_ESQUERDA_P'],
-  'Coluna_T1': ['pecas', 'Pé direito M', 'PE_DIRETO_M'], 'Coluna_T3': ['pecas', 'Pé esquerdo M', 'PE_ESQUERDO_M'],
-  'Coluna_T2': ['pecas', 'Pé grande', 'PE_GRANDE'],
-  'copo_transporte': ['elevador', 'Copo inferior', 'COPO_INFERIOR_ELEVADOR'], 'novo_elevador': ['elevador', 'Copo superior', 'COPO_SUPERIOR_ELEVADOR'],
-  'Fuso': ['elevador', 'Fuso', 'FUSO'],
-  'Lancador_anel_trava': ['lancador', 'Anel trava'], 'Lancador_haste': ['lancador', 'Haste'], 'Lancador_mola': ['lancador', 'Mola'],
-  'Lancador_placa': ['lancador', 'Placa'], 'Lancador_ponta_borracha': ['lancador', 'Ponta de borracha'], 'Lancador_puxador': ['lancador', 'Puxador'],
-  'Comporta': ['eletro', 'Comporta'], 'Berco_solenoide': ['eletro', 'Berço do solenoide'],
-  'JF-0530B_referencia': ['eletro', 'Solenoide JF-0530B (comporta)'], 'Solenoide_espera_JF-0530B': ['eletro', 'Solenoide JF-0530B (espera)'],
-  'LED_IR_3mm_emissor': ['eletro', 'LED IR 3 mm emissor'], 'IR_receptor_posicao_tiro': ['eletro', 'Receptor IR — posição de tiro'],
-  'IR_emissor_vitoria': ['eletro', 'Emissor IR — vitória'], 'IR_receptor_vitoria': ['eletro', 'Receptor IR — vitória'],
-  'Bolinha_espera': ['bola', 'Bolinha em espera'],
-};
-const PART_LABEL = Object.fromEntries(Object.values(COMP).filter((c) => c[2]).map((c) => [c[2], c[1]]));
-
-const qs = new URLSearchParams(location.search);
-const SHOT = qs.has('shot');
-if (SHOT) document.body.classList.add('shot');
-
-// ---------- cena ----------
-const canvas = $('cv'), stage = $('stage');
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(32, 1, 1, 20000);
-camera.up.set(0, 0, 1);
-const controls = new OrbitControls(camera, canvas);
-controls.enableDamping = false;
-scene.add(new THREE.HemisphereLight(0xffffff, 0x77808a, 1.5));
-const key = new THREE.DirectionalLight(0xffffff, 1.9);
-camera.add(key); key.position.set(-0.6, 0.9, 1); scene.add(camera);
-let pending = false;
-const draw = () => { if (!pending) { pending = true; requestAnimationFrame(() => { pending = false; renderer.render(scene, camera); }); } };
-controls.addEventListener('change', draw);
-new ResizeObserver(() => {
-  const w = stage.clientWidth, h = stage.clientHeight; if (!w || !h) return;
-  renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); draw();
-}).observe(stage);
-
-const cssVar = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-const edgeMat = new THREE.LineBasicMaterial({ transparent: true, opacity: 0.55 });
-const syncTheme = () => { edgeMat.color.set(SHOT ? '#17212b' : cssVar('--fg')); draw(); };
-matchMedia('(prefers-color-scheme: dark)').addEventListener('change', syncTheme);
-new MutationObserver(syncTheme).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-syncTheme();
-
-// ---------- estado ----------
-const loader = new GLTFLoader();
-const cache = new Map();
-let manifest, asm, mode = 'asm', current = null, items = [], selected = null, partId = null, box = new THREE.Box3(), lastView = 'iso';
-const hiddenCats = new Set();
-
-async function loadModel(item) {
-  if (!cache.has(item.id)) {
-    const gltf = await loader.loadAsync(item.glb);
-    const list = [];
-    gltf.scene.traverse((o) => {
-      if (!o.isMesh) return;
-      const i = o.parent.userData.i ?? o.userData.i ?? list.length;
-      const c = item.componentes[i] ?? item.componentes[0];
-      const meta = item.tipo === 'montagem' ? (COMP[c.nome] ?? ['outros', c.nome.startsWith('corpo_') ? 'Superfície auxiliar' : `Corpo ${c.nome}`]) : ['pecas', PART_LABEL[item.id] ?? item.id];
-      o.material = new THREE.MeshStandardMaterial({ color: CATS[meta[0]].cor, roughness: 0.72, metalness: 0.05, side: THREE.DoubleSide });
-      const edges = new THREE.LineSegments(new THREE.EdgesGeometry(o.geometry, 28), edgeMat);
-      o.add(edges);
-      list.push({ mesh: o, edges, comp: c, cat: meta[0], label: meta[1], peca: meta[2] ?? null, centro: new THREE.Vector3(...c.centro) });
-    });
-    cache.set(item.id, { root: gltf.scene, list });
-  }
-  return cache.get(item.id);
+// ---------- visualizador embutido ----------
+function show3d(hash, label) {
+  const f = $('frame');
+  try { f.contentWindow.location.replace('visualizador.html?embed=1' + hash); } catch { f.src = 'visualizador.html?embed=1' + hash; }
+  $('vnow').textContent = label;
+  $('visualizador').scrollIntoView();
 }
-
-async function show(item) {
-  $('msg').hidden = false; $('msg').textContent = 'Carregando modelo…';
-  try {
-    const m = await loadModel(item);
-    if (current) scene.remove(current.root);
-    current = m; items = m.list; selected = null;
-    scene.add(m.root);
-    box.setFromObject(m.root);
-    applyState(); view(lastView);
-    $('msg').hidden = true;
-  } catch (e) {
-    $('msg').textContent = 'Não foi possível carregar o modelo. Abra o visualizador por um servidor local (npm run serve), não direto do arquivo.';
-    console.error(e);
-  }
-}
-
-function applyState() {
-  const k = mode === 'asm' ? +$('explode').value : 0;
-  const c = box.getCenter(new THREE.Vector3());
-  for (const it of items) {
-    it.mesh.visible = !hiddenCats.has(it.cat) || mode !== 'asm';
-    const ghost = selected && selected !== it;
-    it.mesh.material.transparent = !!ghost; it.mesh.material.opacity = ghost ? 0.13 : 1; it.mesh.material.depthWrite = !ghost;
-    it.edges.visible = $('t-edges').getAttribute('aria-pressed') === 'true' && !ghost;
-    it.mesh.position.copy(it.centro).sub(c).multiplyScalar(k * 1.1);
-  }
-  $('t-all').hidden = !(mode === 'asm' && (hiddenCats.size || selected));
-  renderCard(); markRows(); draw();
-}
-
-const VIEWS = { iso: [1, -1.25, 0.85], top: [0, -0.001, 1], front: [0, -1, 0.12], side: [1, 0, 0.12] };
-function view(name, target = box) {
-  lastView = name;
-  const s = target.getBoundingSphere(new THREE.Sphere());
-  const fov = THREE.MathUtils.degToRad(camera.fov);
-  const d = (mode === 'asm' ? 0.8 : 1) * (s.radius / Math.sin(Math.min(fov, 2 * Math.atan(Math.tan(fov / 2) * camera.aspect)) / 2)) * (1 + 0.9 * +$('explode').value * (mode === 'asm'));
-  camera.position.copy(s.center).add(new THREE.Vector3(...VIEWS[name]).normalize().multiplyScalar(d));
-  camera.near = d / 100; camera.far = d * 10; camera.updateProjectionMatrix();
-  controls.target.copy(s.center); controls.update(); draw();
-}
-
-// ---------- painel lateral ----------
-function renderSide() {
-  const side = $('side');
-  if (mode === 'asm') {
-    let h = '<h2>Montagem completa</h2>';
-    for (const [id, cat] of Object.entries(CATS)) {
-      const list = items.map((it, i) => [it, i]).filter(([it]) => it.cat === id);
-      if (!list.length) continue;
-      h += `<details class="cat" ${id === 'pecas' || id === 'elevador' ? 'open' : ''}><summary><input type="checkbox" id="vis-${id}" data-cat="${id}" ${hiddenCats.has(id) ? '' : 'checked'} aria-label="Mostrar ${esc(cat.nome)}"><span class="sw" style="background:${cat.cor}"></span>${esc(cat.nome)}<span class="n">${list.length}</span></summary>`;
-      for (const [it, i] of list) h += `<button class="row" data-i="${i}"><span class="nm">${esc(it.label)}</span><span class="dm">${dims(it.comp.dimensoes)}</span></button>`;
-      h += '</details>';
-    }
-    side.innerHTML = h;
-  } else {
-    side.innerHTML = '<h2>Peças de fabricação · 12 arquivos</h2>' + manifest.itens.filter((p) => p.tipo === 'peca').map((p) =>
-      `<button class="row part" data-part="${p.id}"><span class="nm">${esc(PART_LABEL[p.id] ?? p.id)}</span><span class="dm">${p.id}.step · ${dims(p.dimensoes)} mm</span></button>`).join('');
-  }
-  markRows();
-}
-function markRows() {
-  for (const r of $('side').querySelectorAll('.row')) {
-    const on = r.dataset.part ? r.dataset.part === partId : items[+r.dataset.i] === selected;
-    r.setAttribute('aria-current', on ? 'true' : 'false');
-  }
-}
-$('side').addEventListener('click', (e) => {
-  const cb = e.target.closest('input[data-cat]');
-  if (cb) { cb.checked ? hiddenCats.delete(cb.dataset.cat) : hiddenCats.add(cb.dataset.cat); applyState(); return; }
-  const r = e.target.closest('.row'); if (!r) return;
-  if (r.dataset.part) openPart(r.dataset.part);
-  else { const it = items[+r.dataset.i]; selected = selected === it ? null : it; applyState(); }
+$('vreset').onclick = () => show3d('#montagem', 'Montagem completa');
+document.addEventListener('click', (e) => {
+  const b = e.target.closest('[data-3d]');
+  if (b) show3d(b.dataset['3d'], b.dataset.label);
 });
 
-// ---------- ficha técnica ----------
-function renderCard() {
-  const item = mode === 'asm' ? asm : manifest.itens.find((p) => p.id === partId);
-  let h;
-  if (mode === 'asm' && selected) {
-    const c = selected.comp, cat = CATS[selected.cat];
-    h = `<h3>${esc(selected.label)}</h3><div class="tag"><span class="sw" style="background:${cat.cor}"></span>${esc(cat.nome)}</div>
-      <dl><dt>Corpo no CAD</dt><dd>${esc(c.nome)}</dd><dt>Envelope X × Y × Z</dt><dd>${dims(c.dimensoes)} mm</dd><dt>Volume</dt><dd>${fmt(c.volume_cm3)} cm³</dd></dl>
-      <div class="acts">${selected.peca ? `<button id="a-part">Abrir peça isolada</button>` : ''}<button id="a-focus">Enquadrar</button><button id="a-clear">Limpar seleção</button></div>`;
-  } else if (mode === 'asm') {
-    h = `<h3>Montagem completa</h3><div class="tag">pinball_COMPLETO.step</div>
-      <dl><dt>Envelope X × Y × Z</dt><dd>${dims(item.dimensoes)} mm</dd><dt>Corpos</dt><dd>${item.corpos}</dd><dt>Volume de material</dt><dd>${fmt(item.volume_cm3)} cm³</dd></dl>
-      <div class="acts"><a href="${REPO}${item.step}">Arquivo STEP</a><span style="color:var(--muted)">Clique em um corpo para isolar</span></div>`;
-  } else {
-    h = `<h3>${esc(PART_LABEL[item.id] ?? item.id)}</h3><div class="tag"><span class="sw" style="background:${CATS.pecas.cor}"></span>${item.id}.step</div>
-      <dl><dt>Envelope X × Y × Z</dt><dd>${dims(item.dimensoes)} mm</dd><dt>Volume</dt><dd>${fmt(item.volume_cm3)} cm³</dd><dt>Área</dt><dd>${fmt(item.area_cm2)} cm²</dd><dt>Corpos</dt><dd>${item.corpos}</dd></dl>
-      <div class="acts"><a href="${REPO}${item.step}">STEP</a><a href="${REPO}${item.stl}">STL</a><button id="a-inasm">Ver na montagem</button></div>`;
-  }
-  $('card').innerHTML = h;
-}
-$('card').addEventListener('click', (e) => {
-  if (e.target.id === 'a-clear') { selected = null; applyState(); }
-  if (e.target.id === 'a-focus') view(lastView, new THREE.Box3().setFromObject(selected.mesh));
-  if (e.target.id === 'a-part') openPart(selected.peca);
-  if (e.target.id === 'a-inasm') openAsm(partId);
-});
-
-// ---------- modos ----------
-async function openAsm(focusPart) {
-  mode = 'asm'; partId = null; setMode();
-  await show(asm);
-  if (focusPart) selected = items.find((it) => it.peca === focusPart) ?? null;
-  renderSide(); applyState();
-}
-async function openPart(id) {
-  mode = 'parts'; partId = id; setMode(); renderSide();
-  await show(manifest.itens.find((p) => p.id === id));
-}
-function setMode() {
-  $('m-asm').setAttribute('aria-pressed', mode === 'asm'); $('m-parts').setAttribute('aria-pressed', mode === 'parts');
-  $('explode-box').hidden = mode !== 'asm';
-  const h = mode === 'asm' ? '#montagem' : '#peca-' + partId;
-  if (location.hash !== h) history.replaceState(null, '', h);
-}
-$('m-asm').onclick = () => openAsm();
-$('m-parts').onclick = () => openPart(partId ?? 'FUSO');
-$('explode').oninput = () => { applyState(); };
-$('explode').onchange = () => view(lastView);
-$('t-edges').onclick = (e) => { e.target.setAttribute('aria-pressed', e.target.getAttribute('aria-pressed') !== 'true'); applyState(); };
-$('t-all').onclick = () => { hiddenCats.clear(); selected = null; renderSide(); applyState(); };
-for (const b of document.querySelectorAll('[data-view]')) b.onclick = () => view(b.dataset.view);
-
-// clique para selecionar um corpo
-const ray = new THREE.Raycaster(); let down = null;
-canvas.addEventListener('pointerdown', (e) => { down = [e.clientX, e.clientY]; });
-canvas.addEventListener('pointerup', (e) => {
-  if (!down || Math.hypot(e.clientX - down[0], e.clientY - down[1]) > 4 || mode !== 'asm') return;
-  const r = canvas.getBoundingClientRect();
-  ray.setFromCamera(new THREE.Vector2(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1), camera);
-  const hit = ray.intersectObjects(items.filter((it) => it.mesh.visible && (!selected || selected === it)).map((it) => it.mesh), false)[0];
-  const it = hit ? items.find((x) => x.mesh === hit.object) : null;
-  selected = it && it !== selected ? it : null; applyState();
-});
-
-// ---------- início ----------
 try {
-  manifest = await (await fetch('models/manifest.json')).json();
-  asm = manifest.itens.find((p) => p.tipo === 'montagem');
-  $('sub').textContent = `${dims(asm.dimensoes)} mm · ${asm.corpos} corpos · 12 peças`;
-  if (qs.get('explode')) $('explode').value = qs.get('explode');
-  if (qs.get('view')) lastView = qs.get('view');
-  const route = async () => {
-    const m = location.hash.match(/^#peca-(\w+)$/), id = m?.[1] ?? qs.get('part');
-    if (id && manifest.itens.some((p) => p.id === id && p.tipo === 'peca')) await openPart(id); else await openAsm();
+  const manifest = await (await fetch('models/manifest.json')).json();
+  const asm = manifest.itens.find((i) => i.tipo === 'montagem');
+  const pecas = manifest.itens.filter((i) => i.tipo === 'peca');
+
+  $('specs').innerHTML = [
+    ['Envelope X × Y × Z', dims(asm.dimensoes) + ' mm'], ['Corpos na montagem', asm.corpos],
+    ['Peças exportadas', pecas.length], ['Volume de material', fmt(asm.volume_cm3) + ' cm³'], ['Unidade · eixo vertical', 'mm · Z'],
+  ].map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('');
+  $('foot').textContent = `Tabelas geradas de models/manifest.json em ${manifest.geradoEm.split('-').reverse().join('/')}.`;
+
+  // ---------- corpos ----------
+  const corpos = asm.componentes.map((c, i) => { const m = metaOf(c.nome); return { ...c, i, cat: m[0], label: m[1], peca: m[2] }; });
+  const active = new Set(Object.keys(CATS));
+  $('chips').innerHTML = Object.entries(CATS).filter(([id]) => corpos.some((c) => c.cat === id)).map(([id, c]) =>
+    `<button class="chip" data-cat="${id}" aria-pressed="true"><span class="sw" style="background:${c.cor}"></span>${esc(c.nome)}</button>`).join('');
+  const order = Object.keys(CATS);
+  function renderCorpos() {
+    const q = $('q').value.trim().toLowerCase();
+    const rows = corpos.filter((c) => active.has(c.cat) && (!q || (c.label + ' ' + c.nome + ' ' + CATS[c.cat].nome).toLowerCase().includes(q)))
+      .sort((a, b) => order.indexOf(a.cat) - order.indexOf(b.cat) || a.label.localeCompare(b.label, 'pt-BR'));
+    $('crows').innerHTML = rows.map((c) => `<tr>
+      <td><span class="sw" style="background:${CATS[c.cat].cor}"></span> ${esc(CATS[c.cat].nome)}</td><td>${esc(c.label)}</td><td><code>${esc(c.nome)}</code></td>
+      <td class="num">${dims(c.dimensoes)}</td><td class="num">${fmt(c.volume_cm3)}</td>
+      <td><button class="lk" data-3d="#corpo-${c.i}" data-label="${esc(c.label)} (na montagem)">ver em 3D</button></td></tr>`).join('')
+      || '<tr><td colspan="6">Nenhum corpo com esse filtro.</td></tr>';
+    $('ccount').textContent = `${rows.length} de ${corpos.length} corpos`;
+  }
+  $('q').oninput = renderCorpos;
+  $('chips').onclick = (e) => {
+    const b = e.target.closest('.chip'); if (!b) return;
+    const on = b.getAttribute('aria-pressed') !== 'true';
+    b.setAttribute('aria-pressed', on); on ? active.add(b.dataset.cat) : active.delete(b.dataset.cat); renderCorpos();
   };
-  addEventListener('hashchange', route);
-  await route();
-  if (qs.get('hide')) { qs.get('hide').split(',').forEach((c) => hiddenCats.add(c)); applyState(); }
+  renderCorpos();
+
+  // ---------- peças ----------
+  function renderPecas() {
+    const dens = +$('dens').value, by = $('sort').value;
+    const name = (p) => PART_LABEL[p.id] ?? p.id;
+    const list = [...pecas].sort((a, b) => by === 'vol' ? b.volume_cm3 - a.volume_cm3 : by === 'dim' ? Math.max(...b.dimensoes) - Math.max(...a.dimensoes) : name(a).localeCompare(name(b), 'pt-BR'));
+    $('parts').innerHTML = list.map((p) => `<article class="part">
+      <button class="thumb" data-3d="#peca-${p.id}" data-label="${esc(name(p))}" aria-label="Ver ${esc(name(p))} em 3D"><img src="img/peca-${p.id}.png" alt="" loading="lazy"></button>
+      <div class="body"><div><h3>${esc(name(p))}</h3><div class="file">${p.id}.step</div></div>
+      <dl><dt>Envelope</dt><dd>${dims(p.dimensoes)} mm</dd><dt>Volume</dt><dd>${fmt(p.volume_cm3)} cm³</dd><dt>Área</dt><dd>${fmt(p.area_cm2)} cm²</dd><dt>Massa estimada</dt><dd>${fmt(p.volume_cm3 * dens, 0)} g</dd></dl>
+      <div class="acts"><button class="lk" data-3d="#peca-${p.id}" data-label="${esc(name(p))}">ver em 3D</button><a href="${REPO}${p.step}">STEP</a><a href="${REPO}${p.stl}">STL</a></div></div></article>`).join('');
+    const vol = pecas.reduce((s, p) => s + p.volume_cm3, 0);
+    $('ptotal').textContent = `${pecas.length} peças · ${fmt(vol)} cm³ · ≈ ${fmt(vol * dens / 1000, 2)} kg`;
+  }
+  $('sort').onchange = renderPecas; $('dens').onchange = renderPecas;
+  renderPecas();
 } catch (e) {
-  $('sub').textContent = '';
-  $('msg').textContent = 'Não foi possível ler models/manifest.json. Abra por um servidor local: npm run serve.';
   console.error(e);
+  $('specs').outerHTML = '<p class="err">Não foi possível ler models/manifest.json. Abra o site por um servidor (npm run serve), não direto do arquivo.</p>';
 }
 </script>
-<!--/page-->
 </body>
 </html>
