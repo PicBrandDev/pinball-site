@@ -1,0 +1,1346 @@
+{
+ "unidade": "mm",
+ "geradoEm": "2026-11-23",
+ "itens": [
+  {
+   "id": "pinball_COMPLETO",
+   "tipo": "montagem",
+   "step": "cad/montagem/pinball_COMPLETO.step",
+   "glb": "models/pinball_COMPLETO.glb",
+   "stl": null,
+   "corpos": 36,
+   "triangulos": 52668,
+   "bbox": {
+    "min": [
+     -214.9,
+     -219,
+     57.2
+    ],
+    "max": [
+     215.1,
+     279.4,
+     213.1
+    ]
+   },
+   "dimensoes": [
+    430,
+    498.4,
+    155.9
+   ],
+   "volume_cm3": 6083.2,
+   "area_cm2": 10829.2,
+   "componentes": [
+    {
+     "nome": "1.7.5",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      258.5,
+      15,
+      34.4
+     ],
+     "centro": [
+      83.3,
+      -99.2,
+      100.1
+     ],
+     "volume_cm3": 132.5
+    },
+    {
+     "nome": "1.7.6",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      271.5,
+      38.4,
+      51.5
+     ],
+     "centro": [
+      74.9,
+      -72.7,
+      108.9
+     ],
+     "volume_cm3": 65.2
+    },
+    {
+     "nome": "Coluna_T1",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      45.3,
+      53.6,
+      67.5
+     ],
+     "centro": [
+      152.6,
+      95.4,
+      116.7
+     ],
+     "volume_cm3": 37.7
+    },
+    {
+     "nome": "Coluna_T2",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      50,
+      24,
+      85.6
+     ],
+     "centro": [
+      0,
+      178,
+      125.8
+     ],
+     "volume_cm3": 50.3
+    },
+    {
+     "nome": "Coluna_T3",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      45.3,
+      53.6,
+      67.5
+     ],
+     "centro": [
+      -152.6,
+      95.4,
+      116.7
+     ],
+     "volume_cm3": 37.7
+    },
+    {
+     "nome": "Coluna_F_dir",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      50,
+      24,
+      32.6
+     ],
+     "centro": [
+      175,
+      -20,
+      99.2
+     ],
+     "volume_cm3": 20.2
+    },
+    {
+     "nome": "Coluna_F_esq",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      50,
+      24,
+      32.6
+     ],
+     "centro": [
+      -175,
+      -20,
+      99.2
+     ],
+     "volume_cm3": 20.2
+    },
+    {
+     "nome": "1.2",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      90.9,
+      73,
+      49.4
+     ],
+     "centro": [
+      -159.5,
+      -70.3,
+      107.6
+     ],
+     "volume_cm3": 104.8
+    },
+    {
+     "nome": "madeira",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      430,
+      15,
+      71
+     ],
+     "centro": [
+      0.1,
+      -113.1,
+      118.4
+     ],
+     "volume_cm3": 456.1
+    },
+    {
+     "nome": "Extensao_lancador_madeira",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      76,
+      59.4,
+      85.9
+     ],
+     "centro": [
+      -168.1,
+      -150.3,
+      110.9
+     ],
+     "volume_cm3": 361.4
+    },
+    {
+     "nome": "Lancador_anel_trava",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      14,
+      3,
+      14
+     ],
+     "centro": [
+      -168.1,
+      -138.5,
+      124
+     ],
+     "volume_cm3": 0.2
+    },
+    {
+     "nome": "Lancador_haste",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      9.5,
+      99,
+      9.5
+     ],
+     "centro": [
+      -168.1,
+      -157.5,
+      124
+     ],
+     "volume_cm3": 7
+    },
+    {
+     "nome": "Lancador_mola",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      14,
+      40,
+      14
+     ],
+     "centro": [
+      -168.1,
+      -160,
+      124
+     ],
+     "volume_cm3": 1.9
+    },
+    {
+     "nome": "Lancador_placa",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      70,
+      2,
+      20
+     ],
+     "centro": [
+      -168.1,
+      -181,
+      124
+     ],
+     "volume_cm3": 2.6
+    },
+    {
+     "nome": "Lancador_ponta_borracha",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      11,
+      8,
+      11
+     ],
+     "centro": [
+      -168.1,
+      -104,
+      124
+     ],
+     "volume_cm3": 0.8
+    },
+    {
+     "nome": "Lancador_puxador",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      32,
+      12,
+      32
+     ],
+     "centro": [
+      -168.1,
+      -213,
+      124
+     ],
+     "volume_cm3": 9.6
+    },
+    {
+     "nome": "1.1",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      246.5,
+      255,
+      92.2
+     ],
+     "centro": [
+      -81.8,
+      78.4,
+      167
+     ],
+     "volume_cm3": 393.9
+    },
+    {
+     "nome": "Tampo_madeira",
+     "cor": [
+      216,
+      184,
+      128
+     ],
+     "dimensoes": [
+      410,
+      253.7,
+      83.7
+     ],
+     "centro": [
+      0,
+      78.1,
+      146.4
+     ],
+     "volume_cm3": 1347.4
+    },
+    {
+     "nome": "corpo_19",
+     "cor": [
+      184,
+      189,
+      199
+     ],
+     "dimensoes": [
+      0.1,
+      40.5,
+      15
+     ],
+     "centro": [
+      -183.1,
+      -29.8,
+      127.9
+     ],
+     "volume_cm3": 0
+    },
+    {
+     "nome": "corpo_20",
+     "cor": [
+      184,
+      189,
+      199
+     ],
+     "dimensoes": [
+      430,
+      400,
+      15
+     ],
+     "centro": [
+      0.1,
+      79.4,
+      75.4
+     ],
+     "volume_cm3": 2504.1
+    },
+    {
+     "nome": "Comporta",
+     "cor": [
+      51,
+      152,
+      229
+     ],
+     "dimensoes": [
+      10,
+      21,
+      15.5
+     ],
+     "centro": [
+      -44,
+      -55.5,
+      101.3
+     ],
+     "volume_cm3": 0.5
+    },
+    {
+     "nome": "Berco_solenoide",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      21,
+      33,
+      18.6
+     ],
+     "centro": [
+      -44,
+      -18.5,
+      92.2
+     ],
+     "volume_cm3": 6
+    },
+    {
+     "nome": "JF-0530B_referencia",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      16,
+      58,
+      15
+     ],
+     "centro": [
+      -44,
+      -23,
+      98.5
+     ],
+     "volume_cm3": 7.8
+    },
+    {
+     "nome": "LED_IR_3mm_emissor",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      1.4,
+      19.1,
+      23.6
+     ],
+     "centro": [
+      179.3,
+      11.8,
+      147.4
+     ],
+     "volume_cm3": 0.2
+    },
+    {
+     "nome": "Bolinha_espera",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      14.9,
+      14.6,
+      15
+     ],
+     "centro": [
+      -15.8,
+      -61.8,
+      107.3
+     ],
+     "volume_cm3": 1.5
+    },
+    {
+     "nome": "Solenoide_espera_JF-0530B",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      16,
+      15,
+      58
+     ],
+     "centro": [
+      -151,
+      -66.3,
+      103.6
+     ],
+     "volume_cm3": 7.8
+    },
+    {
+     "nome": "IR_receptor_posicao_tiro",
+     "cor": [
+      25,
+      25,
+      25
+     ],
+     "dimensoes": [
+      5.3,
+      3.8,
+      3.8
+     ],
+     "centro": [
+      -154.7,
+      -92.5,
+      120.5
+     ],
+     "volume_cm3": 0
+    },
+    {
+     "nome": "IR_emissor_vitoria",
+     "cor": [
+      51,
+      90,
+      229
+     ],
+     "dimensoes": [
+      5.3,
+      3.8,
+      3.8
+     ],
+     "centro": [
+      21.1,
+      28,
+      144.2
+     ],
+     "volume_cm3": 0
+    },
+    {
+     "nome": "IR_receptor_vitoria",
+     "cor": [
+      25,
+      25,
+      25
+     ],
+     "dimensoes": [
+      5.3,
+      3.8,
+      3.8
+     ],
+     "centro": [
+      41.9,
+      28,
+      144.2
+     ],
+     "volume_cm3": 0
+    },
+    {
+     "nome": "corpo_30",
+     "cor": [
+      184,
+      189,
+      199
+     ],
+     "dimensoes": [
+      0,
+      0.9,
+      0.2
+     ],
+     "centro": [
+      74.1,
+      -48.3,
+      120.5
+     ],
+     "volume_cm3": 0
+    },
+    {
+     "nome": "corpo_31",
+     "cor": [
+      184,
+      189,
+      199
+     ],
+     "dimensoes": [
+      205,
+      255,
+      92.2
+     ],
+     "centro": [
+      102.5,
+      78.7,
+      166.4
+     ],
+     "volume_cm3": 371.6
+    },
+    {
+     "nome": "corpo_32",
+     "cor": [
+      184,
+      189,
+      199
+     ],
+     "dimensoes": [
+      0.2,
+      6.1,
+      22.3
+     ],
+     "centro": [
+      53.9,
+      20.1,
+      150.7
+     ],
+     "volume_cm3": 0
+    },
+    {
+     "nome": "copo_transporte",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      75.9,
+      70.5,
+      74.9
+     ],
+     "centro": [
+      -86,
+      -71.2,
+      94.7
+     ],
+     "volume_cm3": 56.9
+    },
+    {
+     "nome": "novo_elevador",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      71.2,
+      57,
+      88.3
+     ],
+     "centro": [
+      -126,
+      -78,
+      134
+     ],
+     "volume_cm3": 45.8
+    },
+    {
+     "nome": "Fuso",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      74.9,
+      42,
+      89.4
+     ],
+     "centro": [
+      -98.8,
+      -78,
+      119.3
+     ],
+     "volume_cm3": 30.7
+    },
+    {
+     "nome": "SOLID",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      11.3,
+      12,
+      15.7
+     ],
+     "centro": [
+      -151.1,
+      -55.2,
+      128.9
+     ],
+     "volume_cm3": 1
+    }
+   ]
+  },
+  {
+   "id": "BORDA_DIRETA",
+   "tipo": "peca",
+   "step": "cad/pecas/BORDA_DIRETA.step",
+   "glb": "models/BORDA_DIRETA.glb",
+   "stl": "cad/stl/BORDA_DIRETA.stl",
+   "corpos": 3,
+   "triangulos": 3747,
+   "bbox": {
+    "min": [
+     0,
+     -48.8,
+     120.3
+    ],
+    "max": [
+     205,
+     206.2,
+     212.5
+    ]
+   },
+   "dimensoes": [
+    205,
+    255,
+    92.2
+   ],
+   "volume_cm3": 371.6,
+   "area_cm2": 891.3,
+   "componentes": [
+    {
+     "nome": "corpo_1",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      0,
+      0.9,
+      0.2
+     ],
+     "centro": [
+      74.1,
+      -48.3,
+      120.5
+     ],
+     "volume_cm3": 0
+    },
+    {
+     "nome": "corpo_2",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      205,
+      255,
+      92.2
+     ],
+     "centro": [
+      102.5,
+      78.7,
+      166.4
+     ],
+     "volume_cm3": 371.6
+    },
+    {
+     "nome": "corpo_3",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      0.2,
+      6.1,
+      22.3
+     ],
+     "centro": [
+      53.9,
+      20.1,
+      150.7
+     ],
+     "volume_cm3": 0
+    }
+   ]
+  },
+  {
+   "id": "BORDA_EQUERDA",
+   "tipo": "peca",
+   "step": "cad/pecas/BORDA_EQUERDA.step",
+   "glb": "models/BORDA_EQUERDA.glb",
+   "stl": "cad/stl/BORDA_EQUERDA.stl",
+   "corpos": 1,
+   "triangulos": 3398,
+   "bbox": {
+    "min": [
+     -205,
+     -48.8,
+     120.3
+    ],
+    "max": [
+     41.5,
+     206.2,
+     212.5
+    ]
+   },
+   "dimensoes": [
+    246.5,
+    255,
+    92.2
+   ],
+   "volume_cm3": 393.9,
+   "area_cm2": 940.9,
+   "componentes": [
+    {
+     "nome": "1.1",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      246.5,
+      255,
+      92.2
+     ],
+     "centro": [
+      -81.8,
+      78.7,
+      166.4
+     ],
+     "volume_cm3": 393.9
+    }
+   ]
+  },
+  {
+   "id": "CANALETA_DE_COLETA",
+   "tipo": "peca",
+   "step": "cad/pecas/CANALETA_DE_COLETA.step",
+   "glb": "models/CANALETA_DE_COLETA.glb",
+   "stl": "cad/stl/CANALETA_DE_COLETA.stl",
+   "corpos": 1,
+   "triangulos": 2238,
+   "bbox": {
+    "min": [
+     -60.8,
+     -91.9,
+     83.1
+    ],
+    "max": [
+     210.7,
+     -53.5,
+     134.6
+    ]
+   },
+   "dimensoes": [
+    271.5,
+    38.4,
+    51.5
+   ],
+   "volume_cm3": 65.2,
+   "area_cm2": 381.7,
+   "componentes": [
+    {
+     "nome": "1.7.6",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      271.5,
+      38.4,
+      51.5
+     ],
+     "centro": [
+      74.9,
+      -72.7,
+      108.9
+     ],
+     "volume_cm3": 65.2
+    }
+   ]
+  },
+  {
+   "id": "COPO_INFERIOR_ELEVADOR",
+   "tipo": "peca",
+   "step": "cad/pecas/COPO_INFERIOR_ELEVADOR.step",
+   "glb": "models/COPO_INFERIOR_ELEVADOR.glb",
+   "stl": "cad/stl/COPO_INFERIOR_ELEVADOR.stl",
+   "corpos": 1,
+   "triangulos": 4761,
+   "bbox": {
+    "min": [
+     -124,
+     -106.5,
+     57.2
+    ],
+    "max": [
+     -48,
+     -36,
+     132.1
+    ]
+   },
+   "dimensoes": [
+    75.9,
+    70.5,
+    74.9
+   ],
+   "volume_cm3": 57,
+   "area_cm2": 241,
+   "componentes": [
+    {
+     "nome": "copo_transporte",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      75.9,
+      70.5,
+      74.9
+     ],
+     "centro": [
+      -86,
+      -71.2,
+      94.7
+     ],
+     "volume_cm3": 57
+    }
+   ]
+  },
+  {
+   "id": "COPO_SUPERIOR_ELEVADOR",
+   "tipo": "peca",
+   "step": "cad/pecas/COPO_SUPERIOR_ELEVADOR.step",
+   "glb": "models/COPO_SUPERIOR_ELEVADOR.glb",
+   "stl": "cad/stl/COPO_SUPERIOR_ELEVADOR.stl",
+   "corpos": 1,
+   "triangulos": 12723,
+   "bbox": {
+    "min": [
+     -158.7,
+     -106.1,
+     87
+    ],
+    "max": [
+     -87.4,
+     -49.1,
+     175.3
+    ]
+   },
+   "dimensoes": [
+    71.2,
+    57,
+    88.3
+   ],
+   "volume_cm3": 45.9,
+   "area_cm2": 203.8,
+   "componentes": [
+    {
+     "nome": "novo_elevador",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      71.2,
+      57,
+      88.3
+     ],
+     "centro": [
+      -123.1,
+      -77.6,
+      131.1
+     ],
+     "volume_cm3": 45.9
+    }
+   ]
+  },
+  {
+   "id": "FUSO",
+   "tipo": "peca",
+   "step": "cad/pecas/FUSO.step",
+   "glb": "models/FUSO.glb",
+   "stl": "cad/stl/FUSO.stl",
+   "corpos": 1,
+   "triangulos": 16164,
+   "bbox": {
+    "min": [
+     -136.3,
+     -99,
+     74.6
+    ],
+    "max": [
+     -61.4,
+     -57,
+     164
+    ]
+   },
+   "dimensoes": [
+    74.9,
+    42,
+    89.4
+   ],
+   "volume_cm3": 30.8,
+   "area_cm2": 162.5,
+   "componentes": [
+    {
+     "nome": "Fuso",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      74.9,
+      42,
+      89.4
+     ],
+     "centro": [
+      -98.8,
+      -78,
+      119.3
+     ],
+     "volume_cm3": 30.8
+    }
+   ]
+  },
+  {
+   "id": "PE_DIREITO_P",
+   "tipo": "peca",
+   "step": "cad/pecas/PE_DIREITO_P.step",
+   "glb": "models/PE_DIREITO_P.glb",
+   "stl": "cad/stl/PE_DIREITO_P.stl",
+   "corpos": 1,
+   "triangulos": 1360,
+   "bbox": {
+    "min": [
+     150,
+     -32,
+     82.9
+    ],
+    "max": [
+     200,
+     -8,
+     115.5
+    ]
+   },
+   "dimensoes": [
+    50,
+    24,
+    32.6
+   ],
+   "volume_cm3": 20.2,
+   "area_cm2": 59.7,
+   "componentes": [
+    {
+     "nome": "Coluna_F_dir",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      50,
+      24,
+      32.6
+     ],
+     "centro": [
+      175,
+      -20,
+      99.2
+     ],
+     "volume_cm3": 20.2
+    }
+   ]
+  },
+  {
+   "id": "PE_DIRETO_M",
+   "tipo": "peca",
+   "step": "cad/pecas/PE_DIRETO_M.step",
+   "glb": "models/PE_DIRETO_M.glb",
+   "stl": "cad/stl/PE_DIRETO_M.stl",
+   "corpos": 1,
+   "triangulos": 1316,
+   "bbox": {
+    "min": [
+     130,
+     68.6,
+     82.9
+    ],
+    "max": [
+     175.3,
+     122.2,
+     150.4
+    ]
+   },
+   "dimensoes": [
+    45.3,
+    53.6,
+    67.5
+   ],
+   "volume_cm3": 37.7,
+   "area_cm2": 89.5,
+   "componentes": [
+    {
+     "nome": "Coluna_T1",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      45.3,
+      53.6,
+      67.5
+     ],
+     "centro": [
+      152.7,
+      95.4,
+      116.7
+     ],
+     "volume_cm3": 37.7
+    }
+   ]
+  },
+  {
+   "id": "PE_ESQUERDA_P",
+   "tipo": "peca",
+   "step": "cad/pecas/PE_ESQUERDA_P.step",
+   "glb": "models/PE_ESQUERDA_P.glb",
+   "stl": "cad/stl/PE_ESQUERDA_P.stl",
+   "corpos": 1,
+   "triangulos": 1360,
+   "bbox": {
+    "min": [
+     -200,
+     -32,
+     82.9
+    ],
+    "max": [
+     -150,
+     -8,
+     115.5
+    ]
+   },
+   "dimensoes": [
+    50,
+    24,
+    32.6
+   ],
+   "volume_cm3": 20.2,
+   "area_cm2": 59.7,
+   "componentes": [
+    {
+     "nome": "Coluna_F_esq",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      50,
+      24,
+      32.6
+     ],
+     "centro": [
+      -175,
+      -20,
+      99.2
+     ],
+     "volume_cm3": 20.2
+    }
+   ]
+  },
+  {
+   "id": "PE_ESQUERDO_M",
+   "tipo": "peca",
+   "step": "cad/pecas/PE_ESQUERDO_M.step",
+   "glb": "models/PE_ESQUERDO_M.glb",
+   "stl": "cad/stl/PE_ESQUERDO_M.stl",
+   "corpos": 1,
+   "triangulos": 1316,
+   "bbox": {
+    "min": [
+     -175.3,
+     68.6,
+     82.9
+    ],
+    "max": [
+     -130,
+     122.2,
+     150.4
+    ]
+   },
+   "dimensoes": [
+    45.3,
+    53.6,
+    67.5
+   ],
+   "volume_cm3": 37.7,
+   "area_cm2": 89.5,
+   "componentes": [
+    {
+     "nome": "Coluna_T3",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      45.3,
+      53.6,
+      67.5
+     ],
+     "centro": [
+      -152.7,
+      95.4,
+      116.7
+     ],
+     "volume_cm3": 37.7
+    }
+   ]
+  },
+  {
+   "id": "PE_GRANDE",
+   "tipo": "peca",
+   "step": "cad/pecas/PE_GRANDE.step",
+   "glb": "models/PE_GRANDE.glb",
+   "stl": "cad/stl/PE_GRANDE.stl",
+   "corpos": 1,
+   "triangulos": 1288,
+   "bbox": {
+    "min": [
+     -25,
+     166,
+     82.9
+    ],
+    "max": [
+     25,
+     190,
+     168.6
+    ]
+   },
+   "dimensoes": [
+    50,
+    24,
+    85.6
+   ],
+   "volume_cm3": 50.3,
+   "area_cm2": 109.9,
+   "componentes": [
+    {
+     "nome": "Coluna_T2",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      50,
+      24,
+      85.6
+     ],
+     "centro": [
+      0,
+      178,
+      125.8
+     ],
+     "volume_cm3": 50.3
+    }
+   ]
+  },
+  {
+   "id": "PONTE_DO_TIRO",
+   "tipo": "peca",
+   "step": "cad/pecas/PONTE_DO_TIRO.step",
+   "glb": "models/PONTE_DO_TIRO.glb",
+   "stl": "cad/stl/PONTE_DO_TIRO.stl",
+   "corpos": 1,
+   "triangulos": 1856,
+   "bbox": {
+    "min": [
+     -205,
+     -106.8,
+     82.9
+    ],
+    "max": [
+     -114.1,
+     -33.8,
+     132.3
+    ]
+   },
+   "dimensoes": [
+    90.9,
+    73,
+    49.4
+   ],
+   "volume_cm3": 104.8,
+   "area_cm2": 217,
+   "componentes": [
+    {
+     "nome": "1.2",
+     "cor": [
+      90,
+      90,
+      90
+     ],
+     "dimensoes": [
+      90.9,
+      73,
+      49.4
+     ],
+     "centro": [
+      -159.5,
+      -70.3,
+      107.6
+     ],
+     "volume_cm3": 104.8
+    }
+   ]
+  }
+ ]
+}
