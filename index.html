@@ -36,7 +36,9 @@ a { color: var(--accent); }
   border-bottom: 1px solid var(--line); background: var(--panel); }
 .bar h1 { font: 600 17px/1.2 var(--f-display); margin: 0; letter-spacing: -0.01em; }
 .bar .sub { color: var(--muted); font: 12px var(--f-data); }
-.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; margin-left: auto; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.links { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-left: auto; font-size: 13px; font-weight: 500; }
+body.shot .links { display: none; }
 .seg button { padding: 6px 14px; font-weight: 500; }
 .seg button + button { border-left: 1px solid var(--line); }
 .seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); }
@@ -97,6 +99,10 @@ body.shot, body.shot .stage { background: #ffffff; height: 100vh; }
 <header class="bar">
   <h1>Pinball PICbrand</h1>
   <span class="sub" id="sub">carregando…</span>
+  <nav class="links" aria-label="Outras visualizações">
+    <a href="picbox/modelo-3d.html">PICBOX · Modelo 3D</a>
+    <a href="picbox/wireframe.html">PICBOX · Wireframe</a>
+  </nav>
   <div class="seg" role="group" aria-label="Modo">
     <button id="m-asm" aria-pressed="true">Montagem</button>
     <button id="m-parts" aria-pressed="false">Peças</button>
