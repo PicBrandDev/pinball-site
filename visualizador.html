@@ -91,7 +91,7 @@ body.embed .seg { margin-left: auto; }
 }
 body.shot .bar, body.shot .side, body.shot .tools, body.shot .card, body.shot .explode { display: none; }
 body.shot .work { grid-template-columns: minmax(0, 1fr); }
-body.shot, body.shot .stage { background: #ffffff; height: 100vh; }
+body.shot, body.shot .stage { background: #eef2f5; height: 100vh; }
 </style>
 <!--/page-->
 </head>
@@ -163,7 +163,7 @@ const draw = () => { if (!pending) { pending = true; requestAnimationFrame(() =>
 controls.addEventListener('change', draw);
 new ResizeObserver(() => {
   const w = stage.clientWidth, h = stage.clientHeight; if (!w || !h) return;
-  renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); draw();
+  renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); if (SHOT && current) view(lastView); else draw();
 }).observe(stage);
 
 const cssVar = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
@@ -228,15 +228,44 @@ function applyState() {
   renderCard(); markRows(); draw();
 }
 
-const VIEWS = { iso: [1, -1.25, 0.85], top: [0, -0.001, 1], front: [0, -1, 0.12], side: [1, 0, 0.12] };
-function view(name, target = box) {
-  lastView = name;
-  const s = target.getBoundingSphere(new THREE.Sphere());
-  const fov = THREE.MathUtils.degToRad(camera.fov);
-  const d = (mode === 'asm' ? 0.8 : 1) * (s.radius / Math.sin(Math.min(fov, 2 * Math.atan(Math.tan(fov / 2) * camera.aspect)) / 2)) * (1 + 0.9 * +$('explode').value * (mode === 'asm'));
-  camera.position.copy(s.center).add(new THREE.Vector3(...VIEWS[name]).normalize().multiplyScalar(d));
-  camera.near = d / 100; camera.far = d * 10; camera.updateProjectionMatrix();
-  controls.target.copy(s.center); controls.update(); draw();
+const VIEWS = { iso: [1, -1.25, 0.85], back: [-1, 1.25, 0.85], top: [0, -0.001, 1], front: [0, -1, 0.12], side: [1, 0, 0.12] };
+if (SHOT) Object.assign(VIEWS, { front: [0, -1, 0], side: [1, 0, 0] });
+if (qs.get('fov')) camera.fov = +qs.get('fov');   // fov pequeno (ex.: 4) dá uma vista praticamente ortográfica
+function visBox() {
+  const b = new THREE.Box3(), t = new THREE.Box3();
+  for (const it of items) if (it.mesh.visible) { it.mesh.geometry.computeBoundingBox(); b.union(t.copy(it.mesh.geometry.boundingBox).translate(it.mesh.position)); }
+  return b.isEmpty() ? box : b;
+}
+// Enquadra projetando os vértices visíveis na câmera (ou os 8 cantos de uma caixa dada), para o modelo ocupar o quadro sem sobra.
+function view(name, target) {
+  lastView = name; const tight = !target; target ??= visBox();
+  const c = target.getCenter(new THREE.Vector3());
+  const dir = new THREE.Vector3(...VIEWS[name]).normalize();
+  const inv = new THREE.Matrix4().lookAt(dir, new THREE.Vector3(), camera.up).invert();
+  const tv = Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2), th = tv * camera.aspect;
+  const p = new THREE.Vector3(); let d = 0, depth = 0;
+  const fit = () => { d = Math.max(d, p.z + Math.max(Math.abs(p.x) / th, Math.abs(p.y) / tv)); depth = Math.max(depth, Math.abs(p.z)); };
+  const each = (fn) => {
+    if (tight) {
+      for (const it of items) {
+        if (!it.mesh.visible) continue;
+        const a = it.mesh.geometry.attributes.position;
+        for (let i = 0; i < a.count; i += 2) { p.fromBufferAttribute(a, i).add(it.mesh.position).sub(c).applyMatrix4(inv); fn(); }
+      }
+    } else for (let i = 0; i < 8; i++) {
+      p.set(i & 1 ? target.max.x : target.min.x, i & 2 ? target.max.y : target.min.y, i & 4 ? target.max.z : target.min.z).sub(c).applyMatrix4(inv); fn();
+    }
+  };
+  // 1ª passada: centro do que aparece na tela; 2ª: distância que faz tudo caber
+  let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
+  each(() => { x0 = Math.min(x0, p.x); x1 = Math.max(x1, p.x); y0 = Math.min(y0, p.y); y1 = Math.max(y1, p.y); });
+  c.add(new THREE.Vector3((x0 + x1) / 2, (y0 + y1) / 2, 0).applyMatrix4(inv.clone().invert()));
+  each(fit);
+  d *= SHOT ? 1.05 : 1.15;
+  camera.position.copy(c).addScaledVector(dir, d);
+  camera.near = SHOT ? Math.max(d - depth * 1.5, d / 500) : d / 100; camera.far = SHOT ? d + depth * 2 + 10 : d * 10;
+  camera.updateProjectionMatrix();
+  controls.target.copy(c); controls.update(); draw();
 }
 
 // ---------- painel lateral ----------
@@ -350,7 +379,7 @@ try {
   };
   addEventListener('hashchange', route);
   await route();
-  if (qs.get('hide')) { qs.get('hide').split(',').forEach((c) => hiddenCats.add(c)); applyState(); }
+  if (qs.get('hide')) { qs.get('hide').split(',').forEach((c) => hiddenCats.add(c)); applyState(); view(lastView); }
 } catch (e) {
   $('sub').textContent = '';
   $('msg').textContent = 'Não foi possível ler models/manifest.json. Abra por um servidor local: npm run serve.';

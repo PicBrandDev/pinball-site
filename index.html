@@ -10,7 +10,7 @@
 /* Layout: caderno técnico — barra de seções fixa no topo, coluna única larga, o visualizador 3D como peça central e tabelas geradas do manifest. */
 :root {
   --bg: #e9edf1; --panel: #f7f9fb; --fg: #17212b; --muted: #586675; --line: #cdd6de;
-  --accent: #c2255c; --accent-fg: #ffffff; --hover: #e3e9ee;
+  --accent: #c2255c; --accent-fg: #ffffff; --hover: #e3e9ee; --sheet: #eef2f5;
   --f-display: Outfit, "Segoe UI", system-ui, sans-serif;
   --f-body: Inter, "Segoe UI", system-ui, sans-serif;
   --f-data: "JetBrains Mono", ui-monospace, Consolas, monospace;
@@ -58,10 +58,18 @@ section > p.lead { color: var(--muted); max-width: 70ch; margin: 0 0 18px; }
 .viewer .vbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 10px 14px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
 .viewer .vbar a { margin-left: auto; }
 
-.gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
-.gallery figure { margin: 0; }
-.gallery a { display: block; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: #ffffff; }
-.gallery figcaption { font-size: 13px; color: var(--muted); margin-top: 6px; }
+.tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.tabs button { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 8px 14px; font-size: 14px; }
+.tabs button:hover { background: var(--hover); }
+.tabs button[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-fg); }
+.sheet { margin: 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--sheet); }
+.sheet img { width: 100%; height: min(68vh, 620px); object-fit: contain; }
+.sheet figcaption { display: flex; flex-wrap: wrap; gap: 6px 16px; padding: 10px 14px; border-top: 1px solid var(--line); background: var(--panel); font-size: 13px; color: var(--muted); }
+.sheet figcaption a { margin-left: auto; }
+.embed { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--panel); }
+.embed iframe { display: block; width: 100%; height: min(86vh, 820px); min-height: 520px; border: 0; background: #0a0b0e; }
+.embed .vbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 10px 14px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+.embed .vbar a { margin-left: auto; }
 
 .controls { display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; margin-bottom: 12px; }
 .controls input[type="search"], .controls select { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 9px 12px; min-width: 0; }
@@ -84,7 +92,7 @@ tbody tr:hover { background: var(--hover); }
 
 .parts { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
 .part { border: 1px solid var(--line); border-radius: 8px; background: var(--panel); overflow: hidden; display: flex; flex-direction: column; }
-.part .thumb { background: #ffffff; border: 0; padding: 0; border-bottom: 1px solid var(--line); aspect-ratio: 4 / 3; }
+.part .thumb { background: var(--sheet); border: 0; padding: 0; border-bottom: 1px solid var(--line); aspect-ratio: 4 / 3; }
 .part .thumb img { width: 100%; height: 100%; object-fit: contain; }
 .part .body { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
 .part h3 { font: 600 16px/1.2 var(--f-display); margin: 0; }
@@ -93,13 +101,6 @@ tbody tr:hover { background: var(--hover); }
 .part dt { color: var(--muted); }
 .part dd { margin: 0; text-align: right; }
 .part .acts { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 13px; margin-top: auto; }
-
-.pages { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
-.pages a { display: block; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); padding: 16px 18px; text-decoration: none; color: inherit; }
-.pages a:hover { background: var(--hover); }
-.pages b { font: 600 17px var(--f-display); display: block; margin-bottom: 4px; }
-.pages span { color: var(--muted); font-size: 14px; }
-.pages em { font-style: normal; color: var(--accent); font-size: 13px; display: block; margin-top: 10px; }
 
 pre { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; overflow-x: auto; font: 13px/1.6 var(--f-data); margin: 0 0 14px; }
 ul.open { margin: 0; padding-left: 20px; max-width: 75ch; }
@@ -136,13 +137,11 @@ footer { padding-block: 34px 48px; color: var(--muted); font-size: 13px; }
   <section id="vistas">
     <h2>Vistas da montagem</h2>
     <p class="lead">Madeira em bege, peças de fabricação em azul, elevador em laranja, lançador em roxo, eletrônica em verde.</p>
-    <div class="gallery">
-      <figure><a href="img/montagem-iso.png"><img src="img/montagem-iso.png" alt="Montagem em vista isométrica" loading="lazy"></a><figcaption>Isométrica</figcaption></figure>
-      <figure><a href="img/montagem-topo.png"><img src="img/montagem-topo.png" alt="Montagem vista de topo" loading="lazy"></a><figcaption>Topo</figcaption></figure>
-      <figure><a href="img/montagem-frente.png"><img src="img/montagem-frente.png" alt="Montagem vista de frente" loading="lazy"></a><figcaption>Frente</figcaption></figure>
-      <figure><a href="img/montagem-explodida.png"><img src="img/montagem-explodida.png" alt="Montagem em vista explodida" loading="lazy"></a><figcaption>Explodida</figcaption></figure>
-      <figure><a href="img/montagem-interna.png"><img src="img/montagem-interna.png" alt="Mecanismos internos" loading="lazy"></a><figcaption>Mecanismos internos, sem madeira e sem peças de fabricação</figcaption></figure>
-    </div>
+    <div class="tabs" role="tablist" aria-label="Vistas" id="vtabs"></div>
+    <figure class="sheet">
+      <a id="vlink" href="img/montagem-iso.png"><img id="vimg" src="img/montagem-iso.png" alt="Montagem em vista isométrica"></a>
+      <figcaption><span id="vcap"></span><a id="vopen" href="img/montagem-iso.png">Abrir imagem inteira</a></figcaption>
+    </figure>
   </section>
 
   <section id="corpos">
@@ -174,10 +173,15 @@ footer { padding-block: 34px 48px; color: var(--muted); font-size: 13px; }
 
   <section id="picbox">
     <h2>Páginas do PICBOX</h2>
-    <p class="lead">Duas páginas autônomas do produto, com sua própria navegação.</p>
-    <div class="pages">
-      <a href="picbox/modelo-3d.html"><b>PICBOX · Modelo 3D</b><span>Gabinete em 3D com a demonstração do ciclo de jogo: repouso, pagamento, bolinhas, resultado e prêmio.</span><em>Abrir página →</em></a>
-      <a href="picbox/wireframe.html"><b>PICBOX · Wireframe</b><span>Wireframe “Lançador e Fenda” v1.0: gabinete, modelo 3D, jogo e física, mecanismo e peças.</span><em>Abrir página →</em></a>
+    <p class="lead">As duas páginas do produto rodam aqui dentro, cada uma com sua própria navegação. Clique dentro do quadro para interagir.</p>
+    <div class="tabs" role="tablist" aria-label="Páginas do PICBOX" id="ptabs">
+      <button role="tab" aria-selected="true" data-p="modelo-3d">Modelo 3D</button>
+      <button role="tab" aria-selected="false" data-p="wireframe">Wireframe</button>
+    </div>
+    <div class="embed">
+      <iframe id="pf-modelo-3d" data-src="picbox/modelo-3d.html" title="PICBOX · Modelo 3D" allow="fullscreen; autoplay"></iframe>
+      <iframe id="pf-wireframe" data-src="picbox/wireframe.html" title="PICBOX · Wireframe" allow="fullscreen" hidden></iframe>
+      <div class="vbar"><span id="pcap"></span><a id="popen" href="picbox/modelo-3d.html">Abrir em tela cheia</a></div>
     </div>
   </section>
 
@@ -223,6 +227,41 @@ function show3d(hash, label) {
   $('visualizador').scrollIntoView();
 }
 $('vreset').onclick = () => show3d('#montagem', 'Montagem completa');
+// ---------- vistas da montagem ----------
+const VISTAS = [
+  ['iso', 'Isométrica', 'Vista isométrica pela frente, com o lançador à esquerda.'],
+  ['traseira', 'Traseira', 'Vista isométrica por trás.'],
+  ['topo', 'Topo', 'Vista de topo, sem perspectiva. A frente do jogo fica embaixo.'],
+  ['frente', 'Frente', 'Vista frontal, sem perspectiva. O tampo de jogo é inclinado, por isso a borda aparece por cima da frente de madeira.'],
+  ['lateral', 'Lateral', 'Vista lateral direita, sem perspectiva.'],
+  ['explodida', 'Explodida', 'Corpos afastados do centro da montagem.'],
+  ['interna', 'Mecanismos', 'Só elevador, lançador, eletrônica e bolinha: madeira e peças de fabricação ocultas.'],
+];
+$('vtabs').innerHTML = VISTAS.map(([id, nome], i) => `<button role="tab" aria-selected="${i === 0}" data-v="${id}">${nome}</button>`).join('');
+function vista(id) {
+  const [, nome, cap] = VISTAS.find((x) => x[0] === id), src = `img/montagem-${id}.png`;
+  $('vimg').src = src; $('vimg').alt = 'Montagem: ' + nome.toLowerCase(); $('vlink').href = src; $('vopen').href = src; $('vcap').textContent = cap;
+  for (const b of $('vtabs').children) b.setAttribute('aria-selected', b.dataset.v === id);
+}
+$('vtabs').onclick = (e) => { const b = e.target.closest('[data-v]'); if (b) vista(b.dataset.v); };
+vista('iso');
+
+// ---------- páginas PICBOX embutidas (carregam só quando a seção aparece) ----------
+const PCAP = { 'modelo-3d': 'Gabinete em 3D com o ciclo de jogo: repouso, pagamento, bolinhas, resultado e prêmio.', 'wireframe': 'Wireframe “Lançador e Fenda” v1.0: gabinete, modelo 3D, jogo e física, mecanismo e peças.' };
+let pAtual = 'modelo-3d', pVisivel = false;
+function picbox(id) {
+  pAtual = id;
+  for (const b of $('ptabs').children) b.setAttribute('aria-selected', b.dataset.p === id);
+  for (const k of Object.keys(PCAP)) {
+    const f = $('pf-' + k); f.hidden = k !== id;
+    if (k === id && pVisivel && !f.src) f.src = f.dataset.src;
+  }
+  $('pcap').textContent = PCAP[id]; $('popen').href = 'picbox/' + id + '.html';
+}
+$('ptabs').onclick = (e) => { const b = e.target.closest('[data-p]'); if (b) picbox(b.dataset.p); };
+new IntersectionObserver((es, o) => { if (es.some((x) => x.isIntersecting)) { pVisivel = true; picbox(pAtual); o.disconnect(); } }, { rootMargin: '300px' }).observe($('picbox'));
+picbox('modelo-3d');
+
 document.addEventListener('click', (e) => {
   const b = e.target.closest('[data-3d]');
   if (b) show3d(b.dataset['3d'], b.dataset.label);
